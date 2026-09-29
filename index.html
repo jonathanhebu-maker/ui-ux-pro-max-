@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>מערכות AI וסוכנים קוליים לעסקים | %VITE_BRAND_NAME%</title>
+    <meta
+      name="description"
+      content="מערכות AI, אוטומציות וסוכנים קוליים חכמים לעסקים. פתרונות מותאמים אישית שמנהלים שיחות, לידים, פגישות ותהליכים עסקיים 24/7."
+    />
+    <meta
+      name="keywords"
+      content="מערכות AI לעסקים, בינה מלאכותית לעסקים, סוכן קולי AI, סוכן AI לעסקים, אוטומציות לעסקים, אוטומציה עם בינה מלאכותית, מערכות אוטומציה לעסקים, AI לעסקים, סוכני AI, פיתוח מערכות AI"
+    />
+    <meta name="theme-color" content="#030509" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:site_name" content="%VITE_BRAND_NAME%" />
+    <meta property="og:title" content="מערכות AI וסוכנים קוליים לעסקים | %VITE_BRAND_NAME%" />
+    <meta
+      property="og:description"
+      content="מערכות AI, אוטומציות וסוכנים קוליים שמנהלים שיחות, לידים, פגישות ותהליכים — גם כשאתם לא בעסק."
+    />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="רובוט AI שהחלק האחורי של ראשו נפתח וחושף מוח מלאכותי עם מעבד AI" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="מערכות AI וסוכנים קוליים לעסקים | %VITE_BRAND_NAME%" />
+    <meta name="twitter:description" content="בונים לעסק שלך עובדי AI שעובדים 24/7 — סוכנים קוליים, אוטומציות ומערכות AI מותאמות אישית." />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.jpg" />
+
+    <!-- Fonts: Heebo (display), Assistant (body), Inter (technical labels) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600&family=Heebo:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600&family=Heebo:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" />
+    </noscript>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "%VITE_SITE_URL%/#org",
+            "name": "%VITE_BRAND_NAME%",
+            "url": "%VITE_SITE_URL%/",
+            "logo": "%VITE_SITE_URL%/favicon.svg",
+            "description": "פיתוח מערכות AI, אוטומציות וסוכנים קוליים לעסקים."
+          },
+          {
+            "@type": "WebSite",
+            "@id": "%VITE_SITE_URL%/#website",
+            "url": "%VITE_SITE_URL%/",
+            "name": "%VITE_BRAND_NAME%",
+            "inLanguage": "he-IL",
+            "publisher": { "@id": "%VITE_SITE_URL%/#org" }
+          },
+          {
+            "@type": "ProfessionalService",
+            "name": "%VITE_BRAND_NAME%",
+            "url": "%VITE_SITE_URL%/",
+            "areaServed": "IL",
+            "availableLanguage": ["he", "en"],
+            "provider": { "@id": "%VITE_SITE_URL%/#org" },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "שירותי AI לעסקים",
+              "itemListElement": [
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "סוכן קולי AI", "description": "סוכן AI שעונה לשיחות, מסנן לידים וקובע פגישות 24/7." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "אוטומציות לעסקים", "description": "אוטומציה עם בינה מלאכותית שמחברת בין מערכות העסק ומורידה עבודה ידנית." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "פיתוח מערכות AI", "description": "מערכות AI מותאמות אישית לתהליכים, לנתונים ולצרכים של העסק." } }
+              ]
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              { "@type": "Question", "name": "מה זה סוכן קולי AI לעסקים?", "acceptedAnswer": { "@type": "Answer", "text": "סוכן קולי AI הוא עובד דיגיטלי שעונה לשיחות טלפון בשפה טבעית, מבין מה הלקוח צריך, עונה על שאלות, מסנן לידים וקובע פגישות ישירות ביומן — 24 שעות ביממה." } },
+              { "@type": "Question", "name": "אילו אוטומציות לעסקים אפשר לבנות עם בינה מלאכותית?", "acceptedAnswer": { "@type": "Answer", "text": "טיפול אוטומטי בלידים, מענה ללקוחות בוואטסאפ ובמייל, עדכון CRM, הפקת הצעות מחיר, תזכורות לפגישות, סיכומי שיחות ודוחות — כל תהליך חוזר שמבוסס על מידע." } },
+              { "@type": "Question", "name": "כמה זמן לוקח לפתח מערכת AI לעסק?", "acceptedAnswer": { "@type": "Answer", "text": "סוכן קולי או אוטומציה ממוקדת עולים לאוויר בדרך כלל תוך 2–4 שבועות. מערכות AI מותאמות אישית רחבות יותר נבנות בשלבים, עם תוצאות כבר מהשלב הראשון." } },
+              { "@type": "Question", "name": "האם המערכת מתחברת ל-CRM וליומן שלנו?", "acceptedAnswer": { "@type": "Answer", "text": "כן. המערכות מתחברות לכלים שכבר עובדים אצלכם — CRM, יומן גוגל, וואטסאפ, מערכות טלפוניה, גיליונות ו-API פנימיים." } }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">דלגו לתוכן הראשי</a>
+    <canvas class="bg-canvas" id="bg-canvas" aria-hidden="true"></canvas>
+
+    <header class="site-header" id="site-header">
+      <a class="brand" href="#top" aria-label="%VITE_BRAND_NAME% — לעמוד הראשי">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <defs>
+            <linearGradient id="bm" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#36c8ff" />
+              <stop offset=".55" stop-color="#5274ff" />
+              <stop offset="1" stop-color="#bc5cff" />
+            </linearGradient>
+          </defs>
+          <path d="M6 25V7l20 18V7" fill="none" stroke="url(#bm)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="16" cy="16" r="2.4" fill="#e9f3ff" />
+        </svg>
+        <span class="brand__name" data-brand>%VITE_BRAND_NAME%</span>
+      </a>
+
+      <nav class="nav" aria-label="ניווט ראשי">
+        <ul class="nav__list">
+          <li><a class="nav__pill" href="#top" aria-current="page">ראשי</a></li>
+          <li><a class="nav__pill" href="#systems">מערכות AI</a></li>
+          <li><a class="nav__pill" href="#voice-agent">סוכן קולי</a></li>
+          <li><a class="nav__pill" href="#automations">אוטומציות</a></li>
+          <li><a class="nav__pill" href="#how">איך זה עובד</a></li>
+          <li><a class="nav__pill" href="#contact">צור קשר</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn btn--glow-outline header-cta" href="#contact">בואו נדבר</a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="פתיחת תפריט">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+      <div class="mobile-menu" id="mobile-menu" hidden>
+        <ul>
+          <li><a href="#top">ראשי</a></li>
+          <li><a href="#systems">מערכות AI</a></li>
+          <li><a href="#voice-agent">סוכן קולי</a></li>
+          <li><a href="#automations">אוטומציות</a></li>
+          <li><a href="#how">איך זה עובד</a></li>
+          <li><a href="#contact">צור קשר</a></li>
+        </ul>
+        <a class="btn btn--primary mobile-menu__cta" href="#contact">בואו נדבר</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ============ HERO ============ -->
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero__glow" aria-hidden="true"></div>
+
+        <div class="hero__stage" id="stage">
+          <div class="stage__canvas" id="stage-canvas"></div>
+          <svg class="callout-lines" id="callout-lines" aria-hidden="true"></svg>
+          <ul class="callouts" id="callouts" aria-label="רכיבי המוח המלאכותי">
+            <li class="callout" data-anchor="language" data-dx="175" data-dy="-95" data-priority="2">
+              <span class="callout__title">הבנת שפה</span>
+              <span class="callout__desc">מבין שיחות טבעיות</span>
+            </li>
+            <li class="callout" data-anchor="reasoning" data-dx="80" data-dy="-150" data-priority="4">
+              <span class="callout__title">מנוע חשיבה</span>
+              <span class="callout__desc">מנתח ומקבל החלטות</span>
+            </li>
+            <li class="callout" data-anchor="core" data-dx="-70" data-dy="-165" data-priority="1">
+              <span class="callout__title callout__title--en">AI CORE</span>
+              <span class="callout__desc">מעבד את המידע בזמן אמת</span>
+            </li>
+            <li class="callout" data-anchor="memory" data-dx="-50" data-dy="165" data-priority="3">
+              <span class="callout__title">זיכרון AI</span>
+              <span class="callout__desc">זוכר הקשר ומידע עסקי</span>
+            </li>
+            <li class="callout" data-anchor="automation" data-dx="130" data-dy="70" data-priority="5">
+              <span class="callout__title">אוטומציה</span>
+              <span class="callout__desc">מבצע פעולות במערכות העסק</span>
+            </li>
+          </ul>
+          <picture class="stage__poster" aria-hidden="true">
+            <source media="(max-width: 1100px)" srcset="/poster-stack.webp" type="image/webp" />
+            <img src="/poster-wide.webp" alt="" width="1440" height="900" decoding="async" loading="lazy" />
+          </picture>
+        </div>
+
+        <div class="hero__beam" aria-hidden="true"><span></span></div>
+
+        <div class="hero__inner">
+          <div class="hero__copy">
+            <p class="eyebrow reveal-seq" data-seq="0"><span class="eyebrow__dot"></span>מערכות AI לעסקים</p>
+            <h1 class="hero__title" id="hero-title">
+              <span class="hero__line"><span class="w">העסק</span> <span class="w">שלך.</span></span>
+              <span class="hero__line"><span class="w w--grad">חכם</span> <span class="w w--grad">יותר.</span></span>
+              <span class="hero__line"><span class="w w--grad">אוטומטי</span> <span class="w">יותר.</span></span>
+            </h1>
+            <p class="hero__sub reveal-seq" data-seq="1">
+              מערכות AI, אוטומציות וסוכנים קוליים<br class="br-desktop" />
+              שמנהלים שיחות, לידים, פגישות ותהליכים<br class="br-desktop" />
+              גם כשאתם לא בעסק.
+            </p>
+            <div class="hero__ctas reveal-seq" data-seq="2">
+              <button class="btn btn--primary btn--lg" type="button" data-action="talk">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
+                דברו עם סוכן ה-AI
+              </button>
+              <a class="btn btn--ghost btn--lg" href="#how">
+                <svg class="icon icon--fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.9l10.2-6.5a1 1 0 0 0 0-1.7L9.5 4.6A1 1 0 0 0 8 5.5Z" /></svg>
+                ראו איך זה עובד
+              </a>
+            </div>
+            <dl class="stats reveal-seq" data-seq="3">
+              <div class="stat"><dt class="stat__value" dir="ltr">24/7</dt><dd>זמינות של סוכן AI</dd></div>
+              <div class="stat"><dt class="stat__value" dir="ltr">10x</dt><dd>תגובה מהירה יותר</dd></div>
+              <div class="stat"><dt class="stat__value" dir="ltr">80%</dt><dd>פחות עבודה ידנית</dd></div>
+              <div class="stat"><dt class="stat__value" dir="ltr">+LEADS</dt><dd>טיפול אוטומטי בלידים</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <!-- Live voice agent -->
+        <aside class="voice" id="voice-agent" aria-labelledby="voice-title">
+          <div class="voice__head">
+            <span class="voice__status"><span class="voice__dot" aria-hidden="true"></span><span data-voice-status>סוכן AI מחובר</span></span>
+            <span class="voice__timer" data-voice-timer dir="ltr">00:00</span>
+          </div>
+          <div class="voice__body">
+            <button class="voice__mic" type="button" aria-pressed="false" aria-label="התחילו שיחה עם סוכן ה-AI" data-voice-toggle>
+              <span class="voice__mic-ring" aria-hidden="true"></span>
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
+            </button>
+            <div class="voice__text">
+              <h2 class="voice__title" id="voice-title">דברו איתי</h2>
+              <p class="voice__desc" data-voice-line>שאלו שאלה, קבעו פגישה או בדקו איך AI יכול לעבוד בעסק שלכם.</p>
+            </div>
+          </div>
+          <canvas class="voice__wave" data-voice-wave aria-hidden="true"></canvas>
+          <p class="sr-only" aria-live="polite" data-voice-live></p>
+        </aside>
+
+        <div class="hero__fade" aria-hidden="true"></div>
+      </section>
+
+      <!-- ============ AI SYSTEMS ============ -->
+      <section class="systems" id="systems" aria-labelledby="systems-title">
+        <svg class="signal" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="sig" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="260">
+              <stop offset="0" stop-color="#36c8ff" stop-opacity="0" />
+              <stop offset=".25" stop-color="#36c8ff" />
+              <stop offset="1" stop-color="#7a5cff" />
+            </linearGradient>
+          </defs>
+          <path class="signal__glow" pathLength="1" d="M600 0 V120" data-trunk />
+          <path class="signal__path" pathLength="1" d="M600 0 V120" data-trunk />
+          <path class="signal__glow" pathLength="1" d="M600 120 C600 190 1000 170 1000 260" />
+          <path class="signal__path" pathLength="1" d="M600 120 C600 190 1000 170 1000 260" />
+          <path class="signal__glow" pathLength="1" d="M600 120 V260" />
+          <path class="signal__path" pathLength="1" d="M600 120 V260" />
+          <path class="signal__glow" pathLength="1" d="M600 120 C600 190 200 170 200 260" />
+          <path class="signal__path" pathLength="1" d="M600 120 C600 190 200 170 200 260" />
+          <circle class="signal__node" cx="600" cy="120" r="4" />
+        </svg>
+
+        <div class="container">
+          <header class="section-head">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>AI לעסקים</p>
+            <h2 class="section-title" id="systems-title">ה-AI שעובד <span class="grad">בתוך העסק שלך</span></h2>
+            <p class="section-sub">לא עוד כלי אחד.<br />מערכת שלמה שמתחברת לעסק ומבצעת עבודה אמיתית.</p>
+          </header>
+
+          <div class="modules">
+            <article class="module" id="voice-module">
+              <div class="module__visual visual-voice" aria-hidden="true">
+                <div class="mic3d">
+                  <div class="mic3d__head"><div class="mic3d__grill"></div></div>
+                  <div class="mic3d__ring"></div>
+                  <div class="mic3d__stem"></div>
+                </div>
+                <div class="wave3d">
+                  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+              <span class="module__num" dir="ltr">MODULE 01</span>
+              <h3 class="module__title">סוכן קולי AI</h3>
+              <p class="module__desc">עונה לשיחות, מנהל שיחה טבעית,<br />מסנן לידים וקובע פגישות 24/7.</p>
+            </article>
+
+            <article class="module" id="automations">
+              <div class="module__visual visual-nodes" aria-hidden="true">
+                <svg viewBox="0 0 240 180">
+                  <defs>
+                    <radialGradient id="nodeg"><stop offset="0" stop-color="#e8f6ff" /><stop offset=".4" stop-color="#36c8ff" /><stop offset="1" stop-color="#36c8ff" stop-opacity="0" /></radialGradient>
+                  </defs>
+                  <g class="nodes__edges">
+                    <path id="e1" d="M40 60 L120 40" /><path id="e2" d="M120 40 L200 70" /><path id="e3" d="M40 60 L90 120" />
+                    <path id="e4" d="M90 120 L120 40" /><path id="e5" d="M90 120 L170 135" /><path id="e6" d="M200 70 L170 135" />
+                    <path id="e7" d="M120 40 L170 135" />
+                  </g>
+                  <g class="nodes__pulses">
+                    <circle r="2.6"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#e1" /></animateMotion></circle>
+                    <circle r="2.6"><animateMotion dur="2.8s" begin=".6s" repeatCount="indefinite"><mpath href="#e2" /></animateMotion></circle>
+                    <circle r="2.6"><animateMotion dur="2.2s" begin=".3s" repeatCount="indefinite"><mpath href="#e5" /></animateMotion></circle>
+                    <circle r="2.6"><animateMotion dur="3s" begin="1s" repeatCount="indefinite"><mpath href="#e7" /></animateMotion></circle>
+                    <circle r="2.6"><animateMotion dur="2.6s" begin="1.4s" repeatCount="indefinite"><mpath href="#e3" /></animateMotion></circle>
+                  </g>
+                  <g class="nodes__dots">
+                    <circle cx="40" cy="60" r="16" fill="url(#nodeg)" opacity=".5" /><circle cx="40" cy="60" r="5" />
+                    <circle cx="120" cy="40" r="20" fill="url(#nodeg)" opacity=".7" /><circle cx="120" cy="40" r="6.5" />
+                    <circle cx="200" cy="70" r="16" fill="url(#nodeg)" opacity=".5" /><circle cx="200" cy="70" r="5" />
+                    <circle cx="90" cy="120" r="16" fill="url(#nodeg)" opacity=".5" /><circle cx="90" cy="120" r="5" />
+                    <circle cx="170" cy="135" r="18" fill="url(#nodeg)" opacity=".6" /><circle cx="170" cy="135" r="5.5" />
+                  </g>
+                </svg>
+              </div>
+              <span class="module__num" dir="ltr">MODULE 02</span>
+              <h3 class="module__title">אוטומציות AI</h3>
+              <p class="module__desc">מחבר בין מערכות העסק,<br />מבצע פעולות ומוריד עבודה ידנית.</p>
+            </article>
+
+            <article class="module" id="custom-ai">
+              <div class="module__visual visual-core" aria-hidden="true">
+                <div class="core3d">
+                  <div class="core3d__glow"></div>
+                  <div class="core3d__base"></div>
+                  <div class="core3d__pins"></div>
+                  <div class="core3d__die"><span dir="ltr">AI</span></div>
+                </div>
+              </div>
+              <span class="module__num" dir="ltr">MODULE 03</span>
+              <h3 class="module__title">מערכות AI מותאמות אישית</h3>
+              <p class="module__desc">מערכות שנבנות לפי<br />התהליכים, הנתונים והצרכים של העסק.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ HOW IT WORKS ============ -->
+      <section class="how" id="how" aria-labelledby="how-title">
+        <div class="container">
+          <header class="section-head">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>איך זה עובד</p>
+            <h2 class="section-title" id="how-title">מהשיחה הראשונה <span class="grad">לעובד AI פעיל</span></h2>
+          </header>
+          <ol class="steps">
+            <li class="step">
+              <span class="step__num" dir="ltr">01</span>
+              <h3 class="step__title">אפיון העסק</h3>
+              <p>ממפים את השיחות, הלידים והתהליכים שגוזלים לכם זמן — ומזהים איפה AI מייצר הכי הרבה ערך.</p>
+            </li>
+            <li class="step">
+              <span class="step__num" dir="ltr">02</span>
+              <h3 class="step__title">תכנון ובנייה</h3>
+              <p>בונים סוכן קולי, אוטומציות ומערכת AI מותאמת — עם הידע, הטון והכללים של העסק שלכם.</p>
+            </li>
+            <li class="step">
+              <span class="step__num" dir="ltr">03</span>
+              <h3 class="step__title">חיבור למערכות</h3>
+              <p>מתחברים ל-CRM, ליומן, לוואטסאפ ולטלפוניה — כך שה-AI מבצע פעולות אמיתיות, לא רק עונה.</p>
+            </li>
+            <li class="step">
+              <span class="step__num" dir="ltr">04</span>
+              <h3 class="step__title">שיפור מתמשך</h3>
+              <p>מודדים כל שיחה וכל תהליך, ומשפרים את הביצועים כל חודש — יותר לידים, פחות עבודה ידנית.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ============ FAQ ============ -->
+      <section class="faq" id="faq" aria-labelledby="faq-title">
+        <div class="container container--narrow">
+          <header class="section-head">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>שאלות נפוצות</p>
+            <h2 class="section-title" id="faq-title">בינה מלאכותית לעסקים — <span class="grad">בקצרה</span></h2>
+          </header>
+          <div class="faq__list">
+            <details class="faq__item">
+              <summary>מה זה סוכן קולי AI לעסקים?</summary>
+              <p>סוכן קולי AI הוא עובד דיגיטלי שעונה לשיחות טלפון בשפה טבעית, מבין מה הלקוח צריך, עונה על שאלות, מסנן לידים וקובע פגישות ישירות ביומן — 24 שעות ביממה.</p>
+            </details>
+            <details class="faq__item">
+              <summary>אילו אוטומציות לעסקים אפשר לבנות עם בינה מלאכותית?</summary>
+              <p>טיפול אוטומטי בלידים, מענה ללקוחות בוואטסאפ ובמייל, עדכון CRM, הפקת הצעות מחיר, תזכורות לפגישות, סיכומי שיחות ודוחות — כל תהליך חוזר שמבוסס על מידע.</p>
+            </details>
+            <details class="faq__item">
+              <summary>כמה זמן לוקח לפתח מערכת AI לעסק?</summary>
+              <p>סוכן קולי או אוטומציה ממוקדת עולים לאוויר בדרך כלל תוך 2–4 שבועות. מערכות AI מותאמות אישית רחבות יותר נבנות בשלבים, עם תוצאות כבר מהשלב הראשון.</p>
+            </details>
+            <details class="faq__item">
+              <summary>האם המערכת מתחברת ל-CRM וליומן שלנו?</summary>
+              <p>כן. המערכות מתחברות לכלים שכבר עובדים אצלכם — CRM, יומן גוגל, וואטסאפ, מערכות טלפוניה, גיליונות ו-API פנימיים.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CONTACT ============ -->
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <div class="container contact__grid">
+          <div class="contact__copy">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>צור קשר</p>
+            <h2 class="section-title" id="contact-title">בונים לעסק שלך<br /><span class="grad">עובדי AI</span><br />שעובדים 24/7</h2>
+            <p class="section-sub">השאירו פרטים ונחזור אליכם עם הצעה לסוכן קולי, אוטומציה או מערכת AI שמתאימה בדיוק לעסק שלכם.</p>
+            <ul class="contact__points">
+              <li>שיחת אפיון ללא עלות</li>
+              <li>הדגמה חיה של סוכן קולי בעברית</li>
+              <li>מפת אוטומציות מותאמת לעסק</li>
+            </ul>
+          </div>
+          <form class="lead-form" id="lead-form" novalidate>
+            <div class="field">
+              <label for="f-name">שם מלא</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required />
+              <span class="field__error" id="f-name-err" role="alert"></span>
+            </div>
+            <div class="field">
+              <label for="f-phone">טלפון</label>
+              <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required />
+              <span class="field__error" id="f-phone-err" role="alert"></span>
+            </div>
+            <div class="field">
+              <label for="f-biz">שם העסק</label>
+              <input id="f-biz" name="business" type="text" autocomplete="organization" />
+            </div>
+            <div class="field">
+              <label for="f-need">מה תרצו לייעל?</label>
+              <select id="f-need" name="need">
+                <option>סוכן קולי AI</option>
+                <option>אוטומציות לעסק</option>
+                <option>מערכת AI מותאמת אישית</option>
+                <option>עוד לא בטוח — בואו נדבר</option>
+              </select>
+            </div>
+            <button class="btn btn--primary btn--lg btn--block" type="submit">שלחו ונחזור אליכם</button>
+            <p class="lead-form__note">בלחיצה אתם מאשרים שניצור איתכם קשר. בלי ספאם.</p>
+            <p class="lead-form__status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__inner">
+        <a class="brand" href="#top"><span class="brand__name" data-brand>%VITE_BRAND_NAME%</span></a>
+        <p>מערכות AI, אוטומציות וסוכנים קוליים לעסקים.</p>
+        <p class="site-footer__copy">© <span data-year>2026</span> %VITE_BRAND_NAME%. כל הזכויות שמורות.</p>
+      </div>
+    </footer>
+
+    <noscript><style>.w,.reveal-seq,.voice{opacity:1!important;transform:none!important;filter:none!important}</style></noscript>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,8 +1,26 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Float } from '@react-three/drei'
-import { useMemo, useRef, useState } from 'react'
+import { ContactShadows, Float } from '@react-three/drei'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import { useIsTouch, useReducedMotion, useTabVisible } from '../hooks'
+
+/** studio environment map — gives the ceramic/chrome real reflections */
+function StudioEnv() {
+  const gl = useThree((s) => s.gl)
+  const scene = useThree((s) => s.scene)
+  useEffect(() => {
+    const pmrem = new THREE.PMREMGenerator(gl)
+    const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture
+    scene.environment = env
+    return () => {
+      scene.environment = null
+      env.dispose()
+      pmrem.dispose()
+    }
+  }, [gl, scene])
+  return null
+}
 
 /* ------------------------------------------------------------------ */
 /* helpers                                                             */
@@ -271,21 +289,30 @@ function Head() {
   const shellMat = useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
-        color: '#eef2fb',
-        roughness: 0.24,
-        metalness: 0.08,
+        color: '#d6dcea',
+        roughness: 0.22,
+        metalness: 0.05,
         clearcoat: 1,
-        clearcoatRoughness: 0.18,
+        clearcoatRoughness: 0.12,
+        envMapIntensity: 0.5,
         side: THREE.DoubleSide,
       }),
     [],
   )
   const chromeMat = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: '#aab4cc', metalness: 0.95, roughness: 0.2 }),
+    () =>
+      new THREE.MeshStandardMaterial({ color: '#cdd6e8', metalness: 1, roughness: 0.12, envMapIntensity: 1.4 }),
     [],
   )
   const darkMat = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: '#0a0f1e', metalness: 0.75, roughness: 0.38 }),
+    () =>
+      new THREE.MeshStandardMaterial({
+        color: '#0a0f1e',
+        metalness: 0.85,
+        roughness: 0.3,
+        envMapIntensity: 0.7,
+        side: THREE.DoubleSide,
+      }),
     [],
   )
 
@@ -356,10 +383,14 @@ function Head() {
           <mesh position={[-1.086, 0, 0]} scale={HEAD_SCALE} material={shellMat}>
             <sphereGeometry args={[1.18, 64, 48, Math.PI, Math.PI]} />
           </mesh>
+          {/* inner dark lining — gives the shell real thickness when open */}
+          <mesh position={[-1.086, 0, 0]} scale={HEAD_SCALE} material={darkMat}>
+            <sphereGeometry args={[1.13, 48, 40, Math.PI, Math.PI]} />
+          </mesh>
           {/* glowing rim on the door edge */}
           <mesh position={[-1.086, 0, 0]} scale={HEAD_SCALE}>
-            <torusGeometry args={[1.18, 0.016, 8, 96]} />
-            <meshBasicMaterial color="#20E4FF" transparent opacity={0.4} blending={THREE.AdditiveBlending} />
+            <torusGeometry args={[1.155, 0.018, 8, 96]} />
+            <meshBasicMaterial color="#20E4FF" transparent opacity={0.55} blending={THREE.AdditiveBlending} />
           </mesh>
         </group>
 
@@ -445,13 +476,13 @@ function Head() {
 function SceneLights() {
   return (
     <>
-      <ambientLight intensity={0.45} />
-      <directionalLight position={[4, 6, 6]} intensity={2.2} color="#ffffff" />
-      <directionalLight position={[-3, 2, 4]} intensity={0.7} color="#cfe0ff" />
+      <ambientLight intensity={0.15} />
+      <directionalLight position={[4, 6, 6]} intensity={1.05} color="#ffffff" />
+      <directionalLight position={[-3, 2, 4]} intensity={0.35} color="#cfe0ff" />
       {/* rim lights — blue / violet edge lighting */}
-      <pointLight position={[-5, 2, -4]} intensity={60} color="#7B4DFF" />
-      <pointLight position={[5, -1, -3]} intensity={45} color="#23B7FF" />
-      <pointLight position={[0, 3, -5]} intensity={30} color="#20E4FF" />
+      <pointLight position={[-5, 2, -4]} intensity={70} color="#7B4DFF" />
+      <pointLight position={[5, -1, -3]} intensity={55} color="#23B7FF" />
+      <pointLight position={[0, 3, -5]} intensity={38} color="#20E4FF" />
     </>
   )
 }
@@ -467,11 +498,17 @@ export default function HeadScene({ active }: { active: boolean }) {
       frameloop={frameloop}
       camera={{ position: [0, 0.15, 6.4], fov: 36 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      onCreated={({ gl }) => {
+        gl.toneMappingExposure = 0.85
+      }}
       style={{ width: '100%', height: '100%' }}
       aria-hidden="true"
     >
+      <StudioEnv />
       <SceneLights />
       <Head />
+      {/* soft grounding shadow */}
+      <ContactShadows position={[0, -2.55, 0]} opacity={0.55} scale={7} blur={2.6} far={3} color="#010208" />
     </Canvas>
   )
 }

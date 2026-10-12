@@ -36,9 +36,13 @@ export default function Header() {
             ☰
           </button>
           <Link to="/" className="logo" onClick={() => setOpen(false)}>
-            <span className="logo-mark" aria-hidden>
-              🛒
-            </span>
+            {site.logo ? (
+              <img className="logo-img" src={site.logo} alt={site.name} />
+            ) : (
+              <span className="logo-mark" aria-hidden>
+                🛒
+              </span>
+            )}
             <span>
               {site.name}
               <small>{site.tagline}</small>

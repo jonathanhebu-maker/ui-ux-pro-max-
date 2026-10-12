@@ -28,6 +28,11 @@ export default function CatalogPage() {
           <div>
             <h2>{category ? `${category.emoji} ${category.name}` : 'כל המוצרים'}</h2>
             <p>{category ? category.blurb : `${products.length} מוצרים במחירי מפעל`}</p>
+            {category?.subs && (
+              <p className="unit" style={{ marginTop: 6 }}>
+                {category.subs.join(' · ')}
+              </p>
+            )}
           </div>
         </div>
 

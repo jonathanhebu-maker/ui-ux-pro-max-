@@ -4,10 +4,13 @@
  */
 export const site = {
   name: 'חסד סטוק',
-  tagline: 'שלהבת חנות המפעל – מהיבואן לצרכן',
+  tagline: 'יודאיקה ומתנות מהיבואן לצרכן',
+  /** לוגו העסק (מה-CDN של האתר הקיים) */
+  logo: 'https://files.cdn-files-a.com/uploads/9432875/400_6a4e40198cf20.png',
   phone: '03-0000000', // TODO: להחליף למספר הטלפון האמיתי של העסק
   whatsapp: '972500000000', // TODO: מספר הוואטסאפ של העסק בפורמט בינלאומי ללא +
-  email: 'chesedstock@gmail.com',
+  email: 'chesedstock15@gmail.com',
+  facebook: 'https://www.facebook.com/people/%D7%A9%D7%9C%D7%94%D7%91%D7%AA/61592112755226/',
 
   shipping: {
     /** סכום מינימום להזמנה עם משלוח (₪) */
@@ -23,13 +26,8 @@ export const site = {
   branches: [
     {
       city: 'אלעד',
-      address: 'רבי עקיבא 15, אלעד',
+      address: 'רבי עקיבא 15, אלעד, ישראל',
       hours: 'א׳–ה׳ 10:00–21:00 · ו׳ 9:00–13:00', // TODO: לאמת שעות פתיחה
-    },
-    {
-      city: 'אבן גבירול',
-      address: 'אבן גבירול 33', // TODO: לאמת כתובת מלאה ועיר
-      hours: 'א׳–ד׳ 10:00–21:00',
     },
   ],
 } as const

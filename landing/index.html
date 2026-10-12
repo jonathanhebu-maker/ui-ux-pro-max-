@@ -15,9 +15,13 @@
   --accent:#e8a84c;
   --accent-deep:#b97722;
   --cool:#5b8dd6;
+  --violet:#7b6cf6;
   --good:#71d6a1;
   color-scheme:dark;
 }
+/* cinematic grain over everything */
+body::after{content:"";position:fixed;inset:0;z-index:95;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{
@@ -58,10 +62,30 @@ nav.solid{background:rgba(6,8,13,.85);backdrop-filter:blur(16px);border-bottom:1
 .hero{position:relative;min-height:88svh;display:flex;align-items:center;overflow:hidden}
 #scene{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero-vig{position:absolute;inset:0;pointer-events:none;background:
+  radial-gradient(600px 420px at 18% 22%,rgba(123,108,246,.16),transparent 65%),
+  radial-gradient(700px 420px at 28% 92%,rgba(232,168,76,.14),transparent 65%),
   radial-gradient(85% 70% at 50% 40%,transparent 40%,rgba(6,8,13,.75) 100%),
   linear-gradient(to bottom,rgba(6,8,13,.35),transparent 25%,transparent 70%,var(--bg) 100%)}
+/* floating glass data chips around the 3D object — the dribbble signature */
+.chips{position:absolute;inset:0;z-index:2;pointer-events:none}
+.chip{position:absolute;display:flex;align-items:center;gap:.6rem;
+  background:rgba(18,23,38,.55);border:1px solid rgba(255,255,255,.1);border-radius:14px;
+  padding:.6rem .95rem;font-size:.8rem;font-weight:500;backdrop-filter:blur(12px);
+  box-shadow:0 20px 50px -20px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.08);
+  animation:chipFloat 6s ease-in-out infinite}
+.chip b{font-family:'Suez One';font-size:1.05rem;color:var(--accent)}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 10px var(--good);animation:pulse 1.8s infinite}
+.chip .dot.v{background:var(--violet);box-shadow:0 0 10px var(--violet)}
+.chip small{color:var(--fg-dim);font-weight:300;display:block;font-size:.68rem}
+.chip:nth-child(1){top:21%;left:4%;animation-delay:0s}
+.chip:nth-child(2){top:12%;left:30%;animation-delay:1.6s}
+.chip:nth-child(3){bottom:30%;left:1.5%;animation-delay:.8s}
+.chip:nth-child(4){bottom:15%;left:27%;animation-delay:2.4s}
+@keyframes chipFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@media(max-width:900px){.chips{display:none}}
+@media(prefers-reduced-motion:reduce){.chip{animation:none}}
 .hero-in{position:relative;z-index:3;padding-block:9rem 5rem;display:flex;flex-direction:column;gap:1.5rem;max-width:640px}
-.hero h1{font-size:clamp(2.5rem,6.3vw,4.6rem);text-shadow:0 4px 40px rgba(0,0,0,.6)}
+.hero h1{font-size:clamp(2.7rem,7vw,5.2rem);text-shadow:0 4px 40px rgba(0,0,0,.6);letter-spacing:-.01em}
 .hero h1 em{font-style:normal;background:linear-gradient(100deg,#f6d9a8,var(--accent) 60%,#d98f2e);
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .hero .sub{font-size:clamp(1.05rem,1.9vw,1.3rem);color:#c3ccdc;max-width:46ch;font-weight:300;text-shadow:0 2px 20px rgba(0,0,0,.7)}
@@ -255,6 +279,12 @@ footer{border-top:1px solid var(--line-soft);padding-block:2.2rem;color:var(--fg
 <header class="hero">
   <canvas id="scene" aria-hidden="true"></canvas>
   <div class="hero-vig"></div>
+  <div class="chips" aria-hidden="true">
+    <div class="chip"><span class="dot"></span><div>ליד חדש נענה<small>לפני 8 שניות · אוטומטית</small></div></div>
+    <div class="chip"><b>+24%</b><div>לידים החודש<small>לעומת החודש שעבר</small></div></div>
+    <div class="chip"><span class="dot v"></span><div>הסוכן בשיחה עכשיו<small>קובע פגישה ללקוח</small></div></div>
+    <div class="chip"><b>10:00</b><div>פגישה נקבעה למחר<small>נשלח אישור בוואטסאפ</small></div></div>
+  </div>
   <div class="wrap" style="width:100%">
     <div class="hero-in">
       <span class="eyebrow">סטודיו לאוטומציה, מערכות ו-AI</span>
@@ -587,7 +617,8 @@ document.querySelectorAll('.copy').forEach(b=>{
   /* key + rim to shape the subject on top of the IBL */
   const key=new THREE.SpotLight(0xffc27a,isMobile?60:90,50,Math.PI/5,.5,2);
   key.position.set(-7,10,7);scene.add(key);
-  const rim=new THREE.DirectionalLight(0x6d9be0,1.6);rim.position.set(7,5,-9);scene.add(rim);
+  const rim=new THREE.DirectionalLight(0x7b6cf6,1.9);rim.position.set(7,5,-9);scene.add(rim);
+  const vio=new THREE.PointLight(0x7b6cf6,isMobile?10:20,16,2);vio.position.set(2,3,-3);scene.add(vio);
   scene.add(new THREE.AmbientLight(0x1c2740,.8));
   const under=new THREE.PointLight(0xe8a84c,isMobile?18:30,14,2);
   under.position.set(isMobile?0:-2.4,-.8,1.2);scene.add(under);

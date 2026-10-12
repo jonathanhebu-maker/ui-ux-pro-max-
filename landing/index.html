@@ -511,7 +511,17 @@ footer{border-top:1px solid var(--line-soft);padding-block:2.2rem;color:var(--fg
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/three@0.147.0/build/three.min.js"></script>
+<script src="https://unpkg.com/three@0.147.0/examples/js/environments/RoomEnvironment.js"></script>
+<script src="https://unpkg.com/three@0.147.0/examples/js/objects/Reflector.js"></script>
+<script src="https://unpkg.com/three@0.147.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://unpkg.com/three@0.147.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://unpkg.com/three@0.147.0/examples/js/postprocessing/Pass.js"></script>
+<script src="https://unpkg.com/three@0.147.0/examples/js/postprocessing/MaskPass.js"></script>
+<script src="https://unpkg.com/three@0.147.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://unpkg.com/three@0.147.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://unpkg.com/three@0.147.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://unpkg.com/three@0.147.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 <script>
 document.documentElement.lang='he';document.documentElement.dir='rtl';
 document.body.classList.add('js');
@@ -546,121 +556,145 @@ document.querySelectorAll('.copy').forEach(b=>{
 });
 
 /* =========================================================
-   CINEMATIC 3D HERO — glass monolith studio
-   A levitating stack of glass panels (the "systems") lit by a warm key
-   light and a cool rim, over a reflective dark floor, with golden data
-   particles rising into the stack. Camera: slow dolly + mouse parallax.
+   REALISTIC 3D HERO — photoreal studio render, live
+   Refractive glass core inside a gyroscope of brushed-gold rings,
+   environment-lit (PMREM RoomEnvironment), real mirror floor
+   (Reflector), golden dust, and cinematic UnrealBloom glow.
+   Falls back gracefully if any addon failed to load.
    ========================================================= */
 (function(){
   if(typeof THREE==='undefined')return;
   const canvas=document.getElementById('scene');
-  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
-  renderer.setClearColor(0x06080d,1);
-  renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
-  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  const isMobile=matchMedia('(max-width:700px)').matches;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,isMobile?1.5:2));
   renderer.outputEncoding=THREE.sRGBEncoding;
-  renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure=1.1;
 
   const scene=new THREE.Scene();
-  scene.fog=new THREE.FogExp2(0x06080d,.055);
-  const cam=new THREE.PerspectiveCamera(42,1,.1,100);
+  scene.background=new THREE.Color(0x05070c);
+  scene.fog=new THREE.FogExp2(0x05070c,.045);
+  const cam=new THREE.PerspectiveCamera(40,1,.1,120);
+  const CAMX=isMobile?0:-1.1;
+  cam.position.set(CAMX,1.6,10.5);
 
-  const isMobile=matchMedia('(max-width:700px)').matches;
-  /* desktop: subject off to the left (text is on the right in RTL); mobile: centered behind text */
-  const CAMX=isMobile?0:-1.2;
-  cam.position.set(CAMX,1.5,10);
+  /* --- image-based lighting: this is what makes materials look real --- */
+  if(THREE.RoomEnvironment&&THREE.PMREMGenerator){
+    const pmrem=new THREE.PMREMGenerator(renderer);
+    scene.environment=pmrem.fromScene(new THREE.RoomEnvironment(),.04).texture;
+  }
+  /* key + rim to shape the subject on top of the IBL */
+  const key=new THREE.SpotLight(0xffc27a,isMobile?60:90,50,Math.PI/5,.5,2);
+  key.position.set(-7,10,7);scene.add(key);
+  const rim=new THREE.DirectionalLight(0x6d9be0,1.6);rim.position.set(7,5,-9);scene.add(rim);
+  scene.add(new THREE.AmbientLight(0x1c2740,.8));
+  const under=new THREE.PointLight(0xe8a84c,isMobile?18:30,14,2);
+  under.position.set(isMobile?0:-2.4,-.8,1.2);scene.add(under);
 
-  /* ---- lights: warm key, cool rim, soft fill ---- */
-  const key=new THREE.SpotLight(0xffb45e,2.2,40,Math.PI/5,.45,1.2);
-  key.position.set(-6,9,6);key.castShadow=true;key.shadow.mapSize.set(1024,1024);
-  scene.add(key);
-  const rim=new THREE.DirectionalLight(0x5b8dd6,.9);rim.position.set(6,4,-8);scene.add(rim);
-  const fill=new THREE.AmbientLight(0x30405c,.55);scene.add(fill);
-  const under=new THREE.PointLight(0xe8a84c,1.4,10);under.position.set(isMobile?0:-2.5,.4,1);scene.add(under);
+  /* --- real mirror floor --- */
+  const FLOOR_Y=-2.2;
+  if(THREE.Reflector&&!isMobile){
+    const refl=new THREE.Reflector(new THREE.CircleGeometry(26,64),{
+      clipBias:.003,textureWidth:1024,textureHeight:1024,color:0x151b28
+    });
+    refl.rotation.x=-Math.PI/2;refl.position.y=FLOOR_Y;scene.add(refl);
+    /* dark glass sheet just above the mirror: softens it into a polished-stone look */
+    const tint=new THREE.Mesh(new THREE.CircleGeometry(26,64),
+      new THREE.MeshPhysicalMaterial({color:0x070a11,metalness:.4,roughness:.5,transparent:true,opacity:.72}));
+    tint.rotation.x=-Math.PI/2;tint.position.y=FLOOR_Y+.012;scene.add(tint);
+  }else{
+    const floor=new THREE.Mesh(new THREE.CircleGeometry(30,48),
+      new THREE.MeshStandardMaterial({color:0x0a0e16,roughness:.2,metalness:.9}));
+    floor.rotation.x=-Math.PI/2;floor.position.y=FLOOR_Y;scene.add(floor);
+  }
 
-  /* ---- reflective floor ---- */
-  const floor=new THREE.Mesh(
-    new THREE.PlaneGeometry(90,90),
-    new THREE.MeshStandardMaterial({color:0x0a0e16,roughness:.28,metalness:.85})
-  );
-  floor.rotation.x=-Math.PI/2;floor.position.y=-2.1;floor.receiveShadow=true;
-  scene.add(floor);
-  /* faint grid on the floor */
-  const grid=new THREE.GridHelper(60,60,0x1c2436,0x141b2a);
-  grid.position.y=-2.09;grid.material.transparent=true;grid.material.opacity=.35;scene.add(grid);
-
-  /* ---- the monolith: floating glass panels + copper frames ---- */
+  /* --- the core --- */
   const group=new THREE.Group();
-  group.position.set(isMobile?0:-2.5,0,0);
+  group.position.set(isMobile?0:-2.4,.55,0);
   scene.add(group);
 
-  const glassMat=new THREE.MeshPhysicalMaterial({
-    color:0x9fb6dd,metalness:.1,roughness:.08,clearcoat:1,clearcoatRoughness:.1,
-    transparent:true,opacity:.16,side:THREE.DoubleSide,envMapIntensity:1
+  /* refractive glass sphere */
+  const glass=new THREE.Mesh(
+    new THREE.SphereGeometry(1.15,96,96),
+    new THREE.MeshPhysicalMaterial({
+      color:0xffffff,metalness:0,roughness:.03,
+      transmission:1,thickness:1.6,ior:1.45,
+      clearcoat:1,clearcoatRoughness:.04,
+      specularIntensity:1,envMapIntensity:1.3
+    })
+  );
+  group.add(glass);
+
+  /* glowing heart inside the glass (bloom picks this up) */
+  const heart=new THREE.Mesh(
+    new THREE.IcosahedronGeometry(.5,1),
+    new THREE.MeshStandardMaterial({color:0xffb45e,emissive:0xff9f33,emissiveIntensity:2.6,metalness:.2,roughness:.4})
+  );
+  group.add(heart);
+  const heartWire=new THREE.Mesh(
+    new THREE.IcosahedronGeometry(.62,1),
+    new THREE.MeshBasicMaterial({color:0xffd9a0,wireframe:true,transparent:true,opacity:.5})
+  );
+  group.add(heartWire);
+
+  /* gyroscope: three brushed-gold rings */
+  const goldMat=new THREE.MeshPhysicalMaterial({
+    color:0xd9a24a,metalness:1,roughness:.18,envMapIntensity:1.4,
+    clearcoat:.6,clearcoatRoughness:.25
   });
-  const frameMat=new THREE.MeshStandardMaterial({color:0xe8a84c,metalness:.95,roughness:.28,emissive:0x5c3a08,emissiveIntensity:.5});
-  const screenMat=new THREE.MeshBasicMaterial({color:0xe8a84c,transparent:true,opacity:.07,side:THREE.DoubleSide});
-
-  const panels=[];
-  const P=[[0,-.9,0,2.9,1.7],[.22,.55,-.4,2.5,1.5],[-.18,1.9,-.8,2.1,1.25]];
-  P.forEach((p,i)=>{
-    const pg=new THREE.Group();
-    const glass=new THREE.Mesh(new THREE.BoxGeometry(p[3],p[4],.08),glassMat);
-    glass.castShadow=true;pg.add(glass);
-    const inner=new THREE.Mesh(new THREE.PlaneGeometry(p[3]*.92,p[4]*.86),screenMat);
-    inner.position.z=.05;pg.add(inner);
-    /* copper frame */
-    const eg=new THREE.EdgesGeometry(new THREE.BoxGeometry(p[3],p[4],.08));
-    pg.add(new THREE.LineSegments(eg,new THREE.LineBasicMaterial({color:0xf3c37d,transparent:true,opacity:.9})));
-    /* "ui rows" on the glass: thin copper bars */
-    for(let r=0;r<3;r++){
-      const bar=new THREE.Mesh(new THREE.BoxGeometry(p[3]*(.6-.13*r),.06,.02),frameMat);
-      bar.position.set((p[3]*.1)*(r%2?1:-1),p[4]*.26-r*.3,.07);pg.add(bar);
-    }
-    pg.position.set(p[0],p[1],p[2]);
-    pg.rotation.y=.18-(i*.12);
-    group.add(pg);panels.push({g:pg,y0:p[1],ph:i*2.1});
+  const rings=[];
+  [[1.65,.05,0,0],[1.95,.045,Math.PI/2.4,.6],[2.3,.04,Math.PI/1.7,1.9]].forEach((r,i)=>{
+    const m=new THREE.Mesh(new THREE.TorusGeometry(r[0],r[1],32,160),goldMat);
+    m.rotation.set(r[2],r[3],0);
+    group.add(m);rings.push({m,sp:(.14-.035*i)*(i%2?1:-1),ax:i});
   });
+  /* small satellites on the outer ring */
+  const sats=[];
+  for(let i=0;i<3;i++){
+    const s=new THREE.Mesh(new THREE.SphereGeometry(.09,24,24),goldMat);
+    group.add(s);sats.push({s,off:i*(Math.PI*2/3)});
+  }
 
-  /* copper ring orbiting the stack */
-  const ring=new THREE.Mesh(new THREE.TorusGeometry(2.45,.035,16,120),frameMat);
-  ring.rotation.x=Math.PI/2.25;ring.position.y=.4;group.add(ring);
-
-  /* ---- rising golden particles (data) ---- */
-  const PN=isMobile?240:520;
+  /* --- golden dust --- */
+  const PN=isMobile?220:450;
   const pGeo=new THREE.BufferGeometry();
   const pos=new Float32Array(PN*3),spd=new Float32Array(PN);
   for(let i=0;i<PN;i++){
-    pos[i*3]=(Math.random()-.5)*14;
-    pos[i*3+1]=-2+Math.random()*9;
-    pos[i*3+2]=(Math.random()-.5)*10-1;
-    spd[i]=.004+Math.random()*.011;
+    pos[i*3]=(Math.random()-.5)*16;
+    pos[i*3+1]=FLOOR_Y+Math.random()*9;
+    pos[i*3+2]=(Math.random()-.5)*12-1;
+    spd[i]=.003+Math.random()*.009;
   }
   pGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
-  /* soft round sprite texture via canvas */
   const tc=document.createElement('canvas');tc.width=tc.height=64;
-  const g=tc.getContext('2d'),gr=g.createRadialGradient(32,32,0,32,32,32);
-  gr.addColorStop(0,'rgba(255,214,150,1)');gr.addColorStop(.4,'rgba(232,168,76,.6)');gr.addColorStop(1,'rgba(232,168,76,0)');
-  g.fillStyle=gr;g.fillRect(0,0,64,64);
+  const g2=tc.getContext('2d'),gr=g2.createRadialGradient(32,32,0,32,32,32);
+  gr.addColorStop(0,'rgba(255,214,150,1)');gr.addColorStop(.4,'rgba(232,168,76,.55)');gr.addColorStop(1,'rgba(232,168,76,0)');
+  g2.fillStyle=gr;g2.fillRect(0,0,64,64);
   const pTex=new THREE.CanvasTexture(tc);
-  const points=new THREE.Points(pGeo,new THREE.PointsMaterial({
-    size:.14,map:pTex,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:.85
-  }));
-  scene.add(points);
+  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({
+    size:.12,map:pTex,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:.8
+  })));
 
-  /* glow sprite behind the stack */
-  const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:pTex,color:0xe8a84c,transparent:true,opacity:.5,blending:THREE.AdditiveBlending,depthWrite:false}));
-  glow.scale.set(9,9,1);glow.position.copy(group.position);glow.position.y=.5;glow.position.z=-1.5;
-  scene.add(glow);
+  /* --- cinematic bloom --- */
+  let composer=null,bloom=null;
+  if(THREE.EffectComposer&&THREE.RenderPass&&THREE.UnrealBloomPass){
+    composer=new THREE.EffectComposer(renderer);
+    composer.addPass(new THREE.RenderPass(scene,cam));
+    bloom=new THREE.UnrealBloomPass(new THREE.Vector2(1024,1024),.85,.7,.72);
+    composer.addPass(bloom);
+  }
 
-  /* ---- interaction ---- */
+  /* --- interaction --- */
   let mx=0,my=0,scrollP=0;
   addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5},{passive:true});
   addEventListener('scroll',()=>{scrollP=Math.min(1,scrollY/Math.max(1,innerHeight))},{passive:true});
 
   function resize(){
     const w=canvas.parentElement.clientWidth,h=canvas.parentElement.clientHeight;
-    renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();
+    renderer.setSize(w,h,false);
+    if(composer)composer.setSize(w,h);
+    cam.aspect=w/h;cam.updateProjectionMatrix();
   }
   resize();addEventListener('resize',resize);
 
@@ -668,25 +702,34 @@ document.querySelectorAll('.copy').forEach(b=>{
   function frame(t){
     if(!frozen&&!reduced){
       const dt=Math.min(50,(t-t0)||16);t0=t;
-      group.rotation.y+=.0016*(dt/16);
-      ring.rotation.z+=.003*(dt/16);
-      panels.forEach(p=>{p.g.position.y=p.y0+Math.sin(t*.0009+p.ph)*.12});
+      group.rotation.y+=.0012*(dt/16);
+      heart.rotation.y+=.01*(dt/16);heart.rotation.x+=.006*(dt/16);
+      heartWire.rotation.y-=.007*(dt/16);
+      heart.material.emissiveIntensity=2.3+Math.sin(t*.0021)*.7;
+      rings.forEach(r=>{
+        if(r.ax===0)r.m.rotation.x+=r.sp*(dt/160);
+        else if(r.ax===1)r.m.rotation.y+=r.sp*(dt/160);
+        else r.m.rotation.z+=r.sp*(dt/160);
+      });
+      sats.forEach(s2=>{
+        const a=t*.0006+s2.off;
+        s2.s.position.set(Math.cos(a)*2.3,Math.sin(a*1.3)*.5,Math.sin(a)*2.3);
+      });
       const arr=pGeo.attributes.position.array;
       for(let i=0;i<PN;i++){
-        arr[i*3+1]+=spd[i]*(dt/16)*2.2;
-        if(arr[i*3+1]>7)arr[i*3+1]=-2.1;
+        arr[i*3+1]+=spd[i]*(dt/16)*2;
+        if(arr[i*3+1]>7)arr[i*3+1]=FLOOR_Y;
       }
       pGeo.attributes.position.needsUpdate=true;
-      /* camera: mouse parallax + slow scroll dolly-out */
-      cam.position.x+=((CAMX+mx*1.1)-cam.position.x)*.04;
-      cam.position.y+=((1.5-my*.7-scrollP*.6)-cam.position.y)*.04;
-      cam.position.z=10+scrollP*2.2;
-      cam.lookAt(group.position.x,.6,0);
-      glow.material.opacity=.42+Math.sin(t*.0014)*.1;
+      group.position.y=.55+Math.sin(t*.0008)*.1;
+      cam.position.x+=((CAMX+mx*1.2)-cam.position.x)*.04;
+      cam.position.y+=((1.6-my*.8-scrollP*.7)-cam.position.y)*.04;
+      cam.position.z=10.5+scrollP*2.4;
+      cam.lookAt(group.position.x,.5,0);
     }else if(reduced){
-      cam.position.set(CAMX,1.4,10);cam.lookAt(group.position.x,.6,0);
+      cam.position.set(CAMX,1.5,10.5);cam.lookAt(group.position.x,.5,0);
     }
-    renderer.render(scene,cam);
+    if(composer)composer.render();else renderer.render(scene,cam);
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);

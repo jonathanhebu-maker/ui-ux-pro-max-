@@ -24,13 +24,13 @@ export interface Product {
 
 export const categories: Category[] = [
   { id: 'disposables', name: 'חד־פעמי', emoji: '🥤', blurb: 'כלי הגשה חד־פעמיים בזול שאין בשום מקום' },
-  { id: 'candles', name: 'נרות', emoji: '🕯️', blurb: 'נרות שבת, נשמה והבדלה מעוצבים' },
+  { id: 'candles', name: 'נרות הבדלה', emoji: '🕯️', blurb: 'נרות שבת, נשמה והבדלה מעוצבים' },
   { id: 'home', name: 'כלי בית', emoji: '🍳', blurb: 'כל מה שצריך למטבח ולבית' },
-  { id: 'electric', name: 'חשמל ותאורה', emoji: '💡', blurb: 'מוצרי חשמל ותאורה במחירי מפעל' },
+  { id: 'electric', name: 'מוצרי חשמל', emoji: '💡', blurb: 'מוצרי חשמל ותאורה במחירי מפעל' },
   { id: 'tools', name: 'כלי עבודה', emoji: '🛠️', blurb: 'כלים לבית ולבעלי מקצוע' },
   { id: 'judaica', name: 'יודאיקה ומתנות', emoji: '✡️', blurb: 'יודאיקה מהודרת מהיבואן לצרכן' },
-  { id: 'plants', name: 'משתלה וצמחים', emoji: '🪴', blurb: 'צמחייה טבעית לבית ולגינה' },
-  { id: 'seasonal', name: 'מוצרי עונה וחג', emoji: '🎉', blurb: 'מתחדשים כל עונה – קיץ, חורף וחגים' },
+  { id: 'plants', name: 'משתלת אלעד', emoji: '🪴', blurb: 'צמחייה טבעית לבית ולגינה' },
+  { id: 'seasonal', name: 'מוצרי קיץ וחג', emoji: '🎉', blurb: 'מתחדשים כל עונה – קיץ, חנוכה וחגים' },
 ]
 
 export const products: Product[] = [

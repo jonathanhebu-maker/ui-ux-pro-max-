@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { site, formatPrice } from '../config'
 import { useCart } from '../cart'
+import { useAuth } from '../auth'
+import NotificationBell from './NotificationBell'
 
 const links = [
   { to: '/', label: 'דף הבית' },
@@ -12,7 +14,9 @@ const links = [
 
 export default function Header() {
   const { count } = useCart()
+  const { user, logout } = useAuth()
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
 
   return (
     <>
@@ -52,11 +56,42 @@ export default function Header() {
                 {l.label}
               </NavLink>
             ))}
+            {user?.role === 'admin' && (
+              <NavLink to="/admin" className={({ isActive }) => (isActive ? 'active' : '')} onClick={() => setOpen(false)}>
+                🛠️ ניהול
+              </NavLink>
+            )}
           </nav>
-          <Link to="/cart" className="cart-btn" aria-label={`עגלת קניות – ${count} פריטים`}>
-            🛒
-            {count > 0 && <span className="cart-badge">{count}</span>}
-          </Link>
+          <div className="header-actions">
+            {user ? (
+              <>
+                <NotificationBell />
+                <div className="user-chip">
+                  <Link to={user.role === 'admin' ? '/admin' : '/account'} title="האזור האישי">
+                    👤 {user.name.split(' ')[0]}
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout()
+                      navigate('/')
+                    }}
+                    aria-label="התנתקות"
+                    title="התנתקות"
+                  >
+                    יציאה
+                  </button>
+                </div>
+              </>
+            ) : (
+              <Link to="/login" className="btn btn-ghost btn-sm">
+                התחברות
+              </Link>
+            )}
+            <Link to="/cart" className="cart-btn" aria-label={`עגלת קניות – ${count} פריטים`}>
+              🛒
+              {count > 0 && <span className="cart-badge">{count}</span>}
+            </Link>
+          </div>
         </div>
       </header>
     </>

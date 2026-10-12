@@ -1,19 +1,30 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { site, formatPrice } from '../config'
 import { byCategory, getCategory, getProduct } from '../data/products'
 import { useCart } from '../cart'
+import { useAuth } from '../auth'
+import { track } from '../notify'
 import { showToast } from '../components/Toast'
 import ProductCard from '../components/ProductCard'
 import QtyPicker from '../components/QtyPicker'
+import PriceTag from '../components/PriceTag'
+import LikeButton from '../components/LikeButton'
 
 export default function ProductPage() {
   const { productId } = useParams()
   const navigate = useNavigate()
   const { add } = useCart()
+  const { user } = useAuth()
   const [qty, setQty] = useState(1)
 
   const product = productId ? getProduct(productId) : undefined
+
+  useEffect(() => {
+    if (product) track('product_view', user?.id ?? null, product.id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productId])
+
   if (!product) {
     return (
       <section className="section">
@@ -56,22 +67,24 @@ export default function ProductPage() {
             )}
           </div>
           <div className="product-info">
-            {product.badge && <span className="product-badge" style={{ position: 'static' }}>{product.badge}</span>}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {product.badge && (
+                <span className="product-badge" style={{ position: 'static' }}>
+                  {product.badge}
+                </span>
+              )}
+              <LikeButton productId={product.id} />
+            </div>
             <h1>{product.name}</h1>
             <p className="desc">{product.description}</p>
-            <div className="price-row">
-              <span className="price">{formatPrice(product.price)}</span>
-              {product.oldPrice && (
-                <span className="old-price">{formatPrice(product.oldPrice)}</span>
-              )}
-              {product.unit && <span className="unit">ל{product.unit}</span>}
-            </div>
-            <div className="buy-row">
+            <PriceTag product={product} large />
+            <div className="buy-row" style={{ marginTop: 16 }}>
               <QtyPicker value={qty} onChange={setQty} />
               <button
                 className="btn btn-primary"
                 onClick={() => {
                   add(product.id, qty)
+                  track('add_to_cart', user?.id ?? null, product.id)
                   showToast('המוצר נוסף לעגלה ✓')
                 }}
               >
@@ -81,6 +94,7 @@ export default function ProductPage() {
                 className="btn btn-accent"
                 onClick={() => {
                   add(product.id, qty)
+                  track('add_to_cart', user?.id ?? null, product.id)
                   navigate('/cart')
                 }}
               >
@@ -99,6 +113,14 @@ export default function ProductPage() {
                 💰 <b>מינימום הזמנה למשלוח:</b> {formatPrice(site.shipping.minOrderForDelivery)}
                 {' '}· משלוח חינם מעל {formatPrice(site.shipping.freeDeliveryFrom)}
               </div>
+              {!user && (
+                <div>
+                  ⭐ <b>לקוחות רשומים נהנים ממחירים מיוחדים</b> –{' '}
+                  <Link to="/register" style={{ textDecoration: 'underline' }}>
+                    הירשמו עכשיו
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

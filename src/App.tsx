@@ -11,6 +11,19 @@ import CartPage from './pages/CartPage'
 import CheckoutPage from './pages/CheckoutPage'
 import BranchesPage from './pages/BranchesPage'
 import FaqPage from './pages/FaqPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import AccountPage from './pages/AccountPage'
+import AdminLayout from './pages/admin/AdminLayout'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminUsers from './pages/admin/AdminUsers'
+import AdminProducts from './pages/admin/AdminProducts'
+import AdminOrders from './pages/admin/AdminOrders'
+import AdminMessages from './pages/admin/AdminMessages'
+import AdminSettings from './pages/admin/AdminSettings'
+import { useAuth } from './auth'
+import { useCart } from './cart'
+import { runReminderScan } from './notify'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -20,10 +33,24 @@ function ScrollToTop() {
   return null
 }
 
+/** מנוע התזכורות – רץ בעלייה וכל דקה */
+function ReminderEngine() {
+  const { user } = useAuth()
+  const { count, updatedAt } = useCart()
+  useEffect(() => {
+    const run = () => runReminderScan(user?.id ?? null, count, updatedAt)
+    run()
+    const t = setInterval(run, 60000)
+    return () => clearInterval(t)
+  }, [user?.id, count, updatedAt])
+  return null
+}
+
 export default function App() {
   return (
     <>
       <ScrollToTop />
+      <ReminderEngine />
       <Header />
       <main>
         <Routes>
@@ -35,6 +62,17 @@ export default function App() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/branches" element={<BranchesPage />} />
           <Route path="/faq" element={<FaqPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="messages" element={<AdminMessages />} />
+            <Route path="settings" element={<AdminSettings />} />
+          </Route>
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>

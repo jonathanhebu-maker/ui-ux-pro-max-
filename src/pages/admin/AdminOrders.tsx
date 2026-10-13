@@ -24,7 +24,7 @@ export default function AdminOrders() {
     const u = findUser(o.userId)
     if (u) {
       notifyUser(u.id, 'עדכון הזמנה', `סטטוס ההזמנה שלך עודכן: ${statusLabel[status]}`)
-      sendMessage(u, 'עדכון הזמנה', `שלום ${u.name}, סטטוס הזמנתך עודכן ל: ${statusLabel[status]}.`)
+      sendMessage(u, 'עדכון הזמנה', `שלום ${u.name}, סטטוס הזמנתך עודכן ל: ${statusLabel[status]}.`, ['email', 'whatsapp'])
     }
     force((v) => v + 1)
   }

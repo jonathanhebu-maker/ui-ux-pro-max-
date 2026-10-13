@@ -83,7 +83,7 @@ export interface EventRecord {
 
 export interface Message {
   id: string
-  channel: 'sms' | 'email'
+  channel: 'whatsapp' | 'email'
   to: string
   subject: string
   body: string

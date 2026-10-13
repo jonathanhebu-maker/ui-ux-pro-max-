@@ -7,14 +7,34 @@ import { getDB, saveDB, uid, findUser } from './db'
 import { site } from './config'
 import type { EventType, User } from './types'
 
-/* ===== שליחת SMS + מייל (דמו – נרשם ביומן) ===== */
-export function sendMessage(user: User, subject: string, body: string) {
+/* ===== שליחת הודעות (דמו – נרשם ביומן) =====
+ * מדיניות הערוצים:
+ * - סיסמאות ופרטי התחברות: מייל + וואטסאפ
+ * - אישורי הזמנה ועדכוני סטטוס: מייל + וואטסאפ (+התראה באפליקציה)
+ * - תזכורות (עגלה נטושה, לייק, תשלום): מייל בלבד
+ * בפרודקשן: מייל דרך Resend/SendGrid, וואטסאפ דרך WhatsApp Business API.
+ */
+type Channel = 'whatsapp' | 'email'
+
+export function sendMessage(
+  user: User,
+  subject: string,
+  body: string,
+  channels: Channel[] = ['email'],
+) {
   const db = getDB()
   const at = Date.now()
-  db.messages.unshift(
-    { id: uid(), channel: 'sms', to: user.phone, subject, body, userId: user.id, at },
-    { id: uid(), channel: 'email', to: user.email, subject, body, userId: user.id, at },
-  )
+  for (const channel of channels) {
+    db.messages.unshift({
+      id: uid(),
+      channel,
+      to: channel === 'whatsapp' ? user.phone : user.email,
+      subject,
+      body,
+      userId: user.id,
+      at,
+    })
+  }
   saveDB()
 }
 
@@ -28,7 +48,8 @@ export function sendCredentials(user: User, kind: 'new' | 'resend' | 'reset') {
   sendMessage(
     user,
     title,
-    `שלום ${user.name},\nפרטי ההתחברות שלך לאתר:\nשם משתמש: ${user.username}\nסיסמה: ${user.password}\nלהתחברות: ${location.origin}`,
+    `שלום ${user.name},\nפרטי ההתחברות שלך לאפליקציה:\nשם משתמש: ${user.username}\nסיסמה: ${user.password}`,
+    ['email', 'whatsapp'],
   )
 }
 

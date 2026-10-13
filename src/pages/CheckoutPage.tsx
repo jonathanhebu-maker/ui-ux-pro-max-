@@ -139,7 +139,8 @@ export default function CheckoutPage() {
     sendMessage(
       user!,
       `${site.name} – אישור הזמנה`,
-      `שלום ${user!.name}, הזמנתך על סך ${formatPrice(order.total)} (כולל מע"מ ${order.vatRate}%) התקבלה. תודה שקניתם אצלנו!`,
+      `שלום ${user!.name}, הזמנתך מס' ${order.id.slice(0, 8).toUpperCase()} על סך ${formatPrice(order.total)} (כולל מע"מ ${order.vatRate}%) התקבלה. תודה שקניתם אצלנו!`,
+      ['email', 'whatsapp'],
     )
     clear()
     orderRef.current = order

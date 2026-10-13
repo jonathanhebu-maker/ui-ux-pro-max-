@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Header from './components/Header'
-import Footer from './components/Footer'
+import BottomNav from './components/BottomNav'
 import WhatsAppFloat from './components/WhatsAppFloat'
 import Toast from './components/Toast'
 import HomePage from './pages/HomePage'
@@ -14,6 +14,7 @@ import FaqPage from './pages/FaqPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import AccountPage from './pages/AccountPage'
+import FavoritesPage from './pages/FavoritesPage'
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminUsers from './pages/admin/AdminUsers'
@@ -47,8 +48,11 @@ function ReminderEngine() {
 }
 
 export default function App() {
+  const { pathname } = useLocation()
+  const isAdmin = pathname.startsWith('/admin')
+
   return (
-    <>
+    <div className={isAdmin ? 'shell admin-shell' : 'shell app-shell'}>
       <ScrollToTop />
       <ReminderEngine />
       <Header />
@@ -65,6 +69,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/account" element={<AccountPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<AdminUsers />} />
@@ -76,9 +81,9 @@ export default function App() {
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>
-      <Footer />
+      <BottomNav />
       <WhatsAppFloat />
       <Toast />
-    </>
+    </div>
   )
 }

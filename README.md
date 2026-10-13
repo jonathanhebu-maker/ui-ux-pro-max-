@@ -73,6 +73,31 @@ npm run preview
 כללי המשלוח (מינימום הזמנה למשלוח, דמי משלוח, משלוח חינם מעל סכום) נאכפים
 אוטומטית בעגלה ובצ'קאאוט לפי ההגדרות ב-`src/config.ts`.
 
+## אפליקציה, לא אתר 📱
+
+הממשק בנוי כאפליקציית מובייל: סרגל טאבים תחתון (בית / קטגוריות / עגלה /
+מועדפים / אני), מסכים ברוחב טלפון, כותרת קומפקטית וללא פוטר של אתר.
+בנוסף היא **PWA מלאה** – מניפסט, Service Worker ואייקונים – כך שאפשר
+להתקין אותה למסך הבית עוד לפני העלייה לחנויות.
+
+### העלאה לחנויות (App Store + Google Play)
+
+הקוד עטוף ב-Capacitor (`capacitor.config.ts`). ממחשב פיתוח:
+
+```bash
+npm install @capacitor/core && npm install -D @capacitor/cli
+npm run build
+npx cap add android   # דורש Android Studio
+npx cap add ios       # דורש Mac עם Xcode
+npx cap sync
+npx cap open android  # בנייה וחתימה ל-Google Play
+npx cap open ios      # בנייה וחתימה ל-App Store
+```
+
+דרישות לפרסום: חשבון Google Play Console (תשלום חד־פעמי ~25$) וחשבון
+Apple Developer (~99$/שנה). לפני ההגשה לחנויות חובה לחבר שרת אמיתי
+(ראו למטה) – חנויות לא מאשרות אפליקציה עם נתוני דמו ב-localStorage.
+
 ## טכנולוגיות
 
 - React 18 + TypeScript + Vite

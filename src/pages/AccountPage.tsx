@@ -1,5 +1,5 @@
 import { Link, Navigate } from 'react-router-dom'
-import { formatPrice } from '../config'
+import { site, formatPrice } from '../config'
 import { useAuth } from '../auth'
 import { getDB, getCategory } from '../db'
 import { getProduct } from '../data/products'
@@ -83,6 +83,17 @@ export default function AccountPage() {
             ))}
           </div>
         )}
+
+        <h3 style={{ margin: '28px 0 12px' }}>מידע ושירות</h3>
+        <div className="profile-links">
+          <Link to="/branches">🏬 סניפים ומשלוחים</Link>
+          <Link to="/faq">❓ שאלות נפוצות</Link>
+          <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">
+            💬 שירות לקוחות בוואטסאפ
+          </a>
+          <a href={`tel:${site.phone.replace(/-/g, '')}`}>📞 התקשרו אלינו: {site.phone}</a>
+          <a href={`mailto:${site.email}`}>📧 {site.email}</a>
+        </div>
       </div>
     </section>
   )

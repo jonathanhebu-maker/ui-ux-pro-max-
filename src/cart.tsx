@@ -7,7 +7,8 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { getProduct, type Product } from './data/products'
+import type { Product } from './data/products'
+import { getProduct } from './db'
 
 export interface CartLine {
   productId: string

@@ -12,12 +12,15 @@ import type {
   Settings,
   User,
 } from './types'
+import { seedProducts, type Product } from './data/products'
 
 const KEY = 'store-db-v1'
 
 interface DB {
   users: User[]
   categories: CustomerCategory[]
+  /** קטלוג המוצרים – מנוהל במלואו על ידי המנהל מהפאנל */
+  products: Product[]
   orders: Order[]
   events: EventRecord[]
   messages: Message[]
@@ -54,6 +57,7 @@ function seed(): DB {
     categories: [
       { id: 'regular', name: 'לקוח רגיל', baseDiscount: 0, productDiscounts: {} },
     ],
+    products: seedProducts.map((p) => ({ ...p })),
     orders: [],
     events: [],
     messages: [],
@@ -115,3 +119,17 @@ export const getCategory = (id: string | null) =>
 
 export const getSku = (productId: string, codeSku: string) =>
   getDB().skuOverrides[productId] ?? codeSku
+
+/* ===== קטלוג המוצרים (מנוהל מהפאנל) ===== */
+
+/** כל המוצרים כולל מוסתרים – לפאנל הניהול */
+export const getAllProducts = (): Product[] => getDB().products
+
+/** המוצרים המוצגים בחנות */
+export const getProducts = (): Product[] =>
+  getDB().products.filter((p) => p.active !== false)
+
+export const getProduct = (id: string) => getDB().products.find((p) => p.id === id)
+
+export const byCategory = (categoryId: string) =>
+  getProducts().filter((p) => p.categoryId === categoryId)

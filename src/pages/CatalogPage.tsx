@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { categories, products, getCategory } from '../data/products'
+import { categories, getCategory } from '../data/products'
+import { getProducts } from '../db'
 import ProductCard from '../components/ProductCard'
 
 export default function CatalogPage() {
@@ -8,6 +9,7 @@ export default function CatalogPage() {
   const [query, setQuery] = useState('')
   const category = categoryId ? getCategory(categoryId) : undefined
 
+  const products = getProducts()
   const filtered = useMemo(() => {
     const q = query.trim()
     return products.filter((p) => {
@@ -15,7 +17,7 @@ export default function CatalogPage() {
       if (!q) return true
       return p.name.includes(q) || p.description.includes(q)
     })
-  }, [category, query])
+  }, [category, query, products])
 
   return (
     <section className="section">

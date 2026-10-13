@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { formatPrice } from '../../config'
 import { getDB, findUser } from '../../db'
-import { products, getProduct } from '../../data/products'
+import { getProducts, getProduct } from '../../db'
 import { StatTile, HBarChart, StackedHBar, Donut } from '../../components/charts'
 import { seedDemoData } from '../../demoData'
 import { showToast } from '../../components/Toast'
@@ -128,7 +128,7 @@ export default function AdminDashboard() {
           <div className="field" style={{ marginBottom: 10 }}>
             <select value={productFilter} onChange={(e) => setProductFilter(e.target.value)} aria-label="סינון לפי מוצר">
               <option value="">לפי סך קניות (₪)</option>
-              {products.map((p) => (
+              {getProducts().map((p) => (
                 <option key={p.id} value={p.id}>
                   לפי מוצר: {p.name} (יחידות)
                 </option>

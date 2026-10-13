@@ -2,7 +2,7 @@ import { Link, Navigate } from 'react-router-dom'
 import { site, formatPrice } from '../config'
 import { useAuth } from '../auth'
 import { getDB, getCategory } from '../db'
-import { getProduct } from '../data/products'
+import { getProduct } from '../db'
 import ProductCard from '../components/ProductCard'
 
 const statusLabel: Record<string, string> = {

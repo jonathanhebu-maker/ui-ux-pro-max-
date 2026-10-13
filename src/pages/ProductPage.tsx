@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { site, formatPrice } from '../config'
-import { byCategory, getCategory, getProduct } from '../data/products'
+import { getCategory } from '../data/products'
+import { byCategory, getProduct } from '../db'
 import { useCart } from '../cart'
 import { useAuth } from '../auth'
 import { track } from '../notify'
@@ -78,7 +79,12 @@ export default function ProductPage() {
             <h1>{product.name}</h1>
             <p className="desc">{product.description}</p>
             <PriceTag product={product} large />
-            <div className="buy-row" style={{ marginTop: 16 }}>
+            {product.stock === 0 && (
+              <div className="notice warn" style={{ marginTop: 12 }}>
+                המוצר אזל מהמלאי – דברו איתנו בוואטסאפ ונעדכן כשיחזור.
+              </div>
+            )}
+            <div className="buy-row" style={{ marginTop: 16, display: product.stock === 0 ? 'none' : undefined }}>
               <QtyPicker value={qty} onChange={setQty} />
               <button
                 className="btn btn-primary"

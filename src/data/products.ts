@@ -23,6 +23,10 @@ export interface Product {
   /** נתיב/כתובת לתמונה אמיתית – כשיש, מוצג במקום האייקון */
   image?: string
   badge?: string
+  /** מלאי – ריק = ללא מעקב מלאי, 0 = אזל */
+  stock?: number
+  /** false = מוסתר מהחנות (נשאר בפאנל) */
+  active?: boolean
 }
 
 /* עץ הקטגוריות האמיתי של חסד סטוק (מהאתר הקיים) */
@@ -47,7 +51,7 @@ export const categories: Category[] = [
  * המחירים הם Placeholder בלבד – יעודכנו מדפי הקטגוריות של האתר
  * (וכך גם התמונות פר־מוצר והמק"טים האמיתיים).
  */
-export const products: Product[] = [
+export const seedProducts: Product[] = [
   // נרות הבדלה
   { id: 'p1', sku: 'MK-1001', categoryId: 'havdalah', name: 'בשמים להבדלה גדול – ציפורן', description: 'בשמים להבדלה בניחוח ציפורן, גודל גדול.', price: 14.9, emoji: '🌸' },
   { id: 'p2', sku: 'MK-1002', categoryId: 'havdalah', name: 'בשמים להבדלה קטן – ציפורן', description: 'בשמים להבדלה בניחוח ציפורן, גודל קטן.', price: 9.9, emoji: '🌸' },
@@ -102,10 +106,5 @@ export const products: Product[] = [
   // מבצעים
   { id: 'p40', sku: 'MK-1040', categoryId: 'deals', name: 'בר משקאות נייד GO BAR', description: 'בר משקאות נייד – מושלם לאירועים ולגינה.', price: 129, oldPrice: 189, emoji: '🍹', badge: 'מבצע שווה' },
 ]
-
-export const byCategory = (categoryId: string) =>
-  products.filter((p) => p.categoryId === categoryId)
-
-export const getProduct = (id: string) => products.find((p) => p.id === id)
 
 export const getCategory = (id: string) => categories.find((c) => c.id === id)

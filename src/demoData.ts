@@ -2,8 +2,7 @@
  * יצירת נתוני דמו – לקוחות, הזמנות ואירועים – כדי להדגים את האנליטיקות.
  * מופעל ידנית מכפתור בלוח הניהול בלבד.
  */
-import { getDB, saveDB, uid, genPassword, getSku } from './db'
-import { products } from './data/products'
+import { getDB, saveDB, uid, genPassword, getSku, getProducts } from './db'
 import type { Order, PaymentMethod, User } from './types'
 
 const demoNames = [
@@ -17,6 +16,7 @@ const demoNames = [
 
 export function seedDemoData() {
   const db = getDB()
+  const products = getProducts()
 
   // קטגוריית דמו נוספת אם יש רק אחת
   if (db.categories.length === 1) {

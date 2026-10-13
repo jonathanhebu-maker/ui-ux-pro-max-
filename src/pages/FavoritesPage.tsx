@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth'
-import { getProduct } from '../data/products'
+import { getProduct } from '../db'
 import ProductCard from '../components/ProductCard'
 
 export default function FavoritesPage() {

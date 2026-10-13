@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
 import { site, formatPrice } from '../config'
-import { categories, products } from '../data/products'
+import { categories } from '../data/products'
+import { getProducts } from '../db'
 import ProductCard from '../components/ProductCard'
 
 export default function HomePage() {
-  const deals = products.filter((p) => p.oldPrice).slice(0, 8)
+  const deals = getProducts().filter((p) => p.oldPrice).slice(0, 8)
   const featured = categories.slice(0, 4)
 
   return (

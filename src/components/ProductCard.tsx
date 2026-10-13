@@ -32,16 +32,22 @@ export default function ProductCard({ product }: { product: Product }) {
         </h3>
         <p className="desc">{product.description}</p>
         <PriceTag product={product} />
-        <button
-          className="btn btn-primary btn-sm"
-          onClick={() => {
-            add(product.id)
-            track('add_to_cart', user?.id ?? null, product.id)
-            showToast('המוצר נוסף לעגלה ✓')
-          }}
-        >
-          הוסיפו לעגלה
-        </button>
+        {product.stock === 0 ? (
+          <button className="btn btn-ghost btn-sm" disabled>
+            אזל מהמלאי
+          </button>
+        ) : (
+          <button
+            className="btn btn-primary btn-sm"
+            onClick={() => {
+              add(product.id)
+              track('add_to_cart', user?.id ?? null, product.id)
+              showToast('המוצר נוסף לעגלה ✓')
+            }}
+          >
+            הוסיפו לעגלה
+          </button>
+        )}
       </div>
     </article>
   )

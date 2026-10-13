@@ -118,7 +118,13 @@ export default function CheckoutPage() {
       notes: form.notes,
       createdAt: Date.now(),
     }
-    getDB().orders.unshift(order)
+    const db = getDB()
+    db.orders.unshift(order)
+    // הורדת מלאי למוצרים עם מעקב מלאי
+    for (const line of order.lines) {
+      const prod = db.products.find((x) => x.id === line.productId)
+      if (prod && prod.stock !== undefined) prod.stock = Math.max(0, prod.stock - line.qty)
+    }
     saveDB()
     return order
   }
